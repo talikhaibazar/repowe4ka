@@ -1,0 +1,41 @@
+#Kykareka
+#include <iostream>
+#include <vector>
+
+const int NUM_FRAMES = 10;
+const int MAX_PINS = 10;
+
+int main() {
+    std::vector<int> rolls;
+    
+    // Ввод результатов бросков
+    std::cout << "Введите результаты бросков (от 0 до 10) через пробел:\n";
+    int score;
+    for (int frame = 1; frame <= NUM_FRAMES; ++frame) {
+        std::cout << "Фрейм " << frame << ": ";
+        std::cin >> score;
+        rolls.push_back(score);
+    }
+    
+    int totalScore = 0;
+    int rollIndex = 0;
+    
+    // Расчет общего счета
+    for (int frame = 1; frame <= NUM_FRAMES; ++frame) {
+        if (rolls[rollIndex] == MAX_PINS) {  // Страйк
+            totalScore += MAX_PINS + rolls[rollIndex + 1] + rolls[rollIndex + 2];
+            ++rollIndex;
+        } else if (rolls[rollIndex] + rolls[rollIndex + 1] == MAX_PINS) {  // Спэр
+            totalScore += MAX_PINS + rolls[rollIndex + 2];
+            rollIndex += 2;
+        } else {
+            totalScore += rolls[rollIndex] + rolls[rollIndex + 1];
+            rollIndex += 2;
+        }
+    }
+    
+    // Вывод общего счета
+    std::cout << "Общий счет: " << totalScore << std::endl;
+    
+    return 0;
+}
